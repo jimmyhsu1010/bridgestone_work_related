@@ -24,7 +24,7 @@ def get_car_info(fetch_list):
         with sync_playwright() as pw:
             browser = pw.chromium.launch(headless=False)
             page = browser.new_page()
-            page.goto(new_url, wait_until="networkidle")
+            page.goto(new_url, wait_until="networkidle", timeout=0)
             page.wait_for_load_state("networkidle")
             try:
                 taipei_truck = pd.read_html(page.content())
@@ -39,10 +39,10 @@ def get_car_info(fetch_list):
             
     result = pd.concat(dfs)
     result = result.drop_duplicates()
-    if fetch_list == "place_list":
-        result.to_excel(r"C:\Users\kc.hsu\Desktop\客運業者.xlsx", index=False) 
+    if "新竹區監理所" in fetch_list:
+        result.to_excel(r"D:\kc.hsu\OneDrive - Bridgestone\數據\市場資訊\大車監理數據.xlsx", index=False) 
     else:
-        result.to_excel(r"C:\Users\kc.hsu\Desktop\遊覽車業者.xlsx", index=False) 
+        result.to_excel(r"D:\kc.hsu\OneDrive - Bridgestone\數據\市場資訊\遊覽車業者.xlsx", index=False) 
     
 
 if __name__ == "__main__":
